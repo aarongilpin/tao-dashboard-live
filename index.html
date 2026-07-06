@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAO Rebalance Dashboard</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --border: #30363d;
+    --text: #e6edf3; --muted: #8b949e;
+    --green: #3fb950; --yellow: #d29922; --red: #f85149; --blue: #58a6ff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; padding: 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .timestamp { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .regime-banner { border-radius: 10px; padding: 20px 24px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border: 1px solid var(--border); }
+  .regime-Bull { background: linear-gradient(135deg, #0d2818, #161b22); border-color: var(--green); }
+  .regime-Bear { background: linear-gradient(135deg, #2d1215, #161b22); border-color: var(--red); }
+  .regime-Sideways { background: linear-gradient(135deg, #2b2111, #161b22); border-color: var(--yellow); }
+  .regime-label { font-size: 26px; font-weight: 700; }
+  .regime-Bull .regime-label { color: var(--green); }
+  .regime-Bear .regime-label { color: var(--red); }
+  .regime-Sideways .regime-label { color: var(--yellow); }
+  .regime-sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .price-block { text-align: right; }
+  .price { font-size: 26px; font-weight: 700; }
+  .change-pos { color: var(--green); } .change-neg { color: var(--red); }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+  .panel h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; color: var(--muted); font-weight: 600; padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 12px; text-transform: uppercase; }
+  td { padding: 8px 10px; border-bottom: 1px solid #21262d; }
+  tr:last-child td { border-bottom: none; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .status-green { color: var(--green); } .status-yellow { color: var(--yellow); } .status-red { color: var(--red); }
+  .action-hold { display: inline-block; background: #0d2818; color: var(--green); border: 1px solid var(--green); border-radius: 6px; padding: 6px 14px; font-weight: 700; }
+  .action-swap { display: inline-block; background: #2d1215; color: var(--red); border: 1px solid var(--red); border-radius: 6px; padding: 6px 14px; font-weight: 700; }
+  .gap-badge { background: #132e53; color: var(--blue); border-radius: 5px; padding: 2px 8px; font-weight: 600; font-size: 13px; }
+  .total-row td { font-weight: 700; border-top: 2px solid var(--border); }
+  .muted { color: var(--muted); }
+  .footnote { color: var(--muted); font-size: 12px; margin-top: 8px; }
+  .weights { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+  .weight-chip { background: #21262d; border-radius: 5px; padding: 3px 10px; font-size: 12px; color: var(--muted); }
+  .mono { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>TAO Rebalance Dashboard</h1>
+  <div class="timestamp" id="ts"></div>
+  <div id="regime"></div>
+  <div class="panel"><h2>Recommendation</h2><div id="action"></div></div>
+  <div class="panel"><h2>Portfolio (auto-detected)</h2><table id="portfolio"></table></div>
+  <div class="panel"><h2>&#128640; Spike Setups — composite rank &gt;&gt; price rank</h2><table id="spikes"></table>
+    <div class="footnote">Fundamentals (emission + pool) rank high but price hasn't caught up. Gap = price rank − composite rank.</div></div>
+  <div class="panel"><h2>Top Replacement Candidates</h2><table id="candidates"></table></div>
+  <div class="footnote">Regime via Markov 2.0 method: 20-bar cumulative return, ±5% threshold. Scan runs every 4h via GitHub Actions.</div>
+</div>
+<script>
+const R = {"timestamp": "2026-07-06T17:42:37.188003Z", "regime": "Bear", "regime_info": {"price": 214.94, "change_7d": 6.5}, "action": "HOLD", "portfolio": [{"netuid": 107, "name": "Minos", "rank": 8, "score": 0.334773, "tokens": 56.501, "value_tao": 2.8854}], "swaps": [], "top_candidates": [{"netuid": 64, "name": "Chutes", "rank": 1, "score": 0.68311, "top_validator": "5DU1dvXbvjVRs5omKrbZzLNB6ZL9uNnzQrS1H8MFcSdFS7ww"}, {"netuid": 18, "name": "Zeus", "rank": 2, "score": 0.54403, "top_validator": "5DCSySUE9aubXTpnnwu5hxBUaMJM7G1L2c5yjuSNaTNwoWyG"}, {"netuid": 4, "name": "Targon", "rank": 3, "score": 0.49586, "top_validator": "5Hp18g9P8hLGKp9W3ZDr4bvJwba6b6bY3P2u3VdYf8yMR8FM"}, {"netuid": 51, "name": "lium.io", "rank": 4, "score": 0.494317, "top_validator": "5F7X5UpKSr26KU3jKfpLmT8kuKtBNyHhEnfS8xtxPCqCb13p"}, {"netuid": 44, "name": "Score", "rank": 5, "score": 0.378163, "top_validator": "5DFwFpurRFaT5VtjdsATUnRakGhvUdgCghF61457QbWdsnJp"}, {"netuid": 95, "name": "Actual", "rank": 6, "score": 0.367155, "top_validator": "5E2LP6EnZ54m3wS8s1yPvD5c3xo71kQroBw7aUVK32TKeZ5u"}, {"netuid": 8, "name": "Vanta", "rank": 7, "score": 0.355002, "top_validator": "5FeNwZ5oAqcJMitNqGx71vxGRWJhsdTqxFGVwPRfg8h2UZmo"}, {"netuid": 9, "name": "iota", "rank": 9, "score": 0.334048, "top_validator": "5EnpBz2DoMTzMztFSVPSpi8jP2yfGadU6kgZgsjqnfvonMgu"}, {"netuid": 68, "name": "NOVA", "rank": 10, "score": 0.314395, "top_validator": "5F1tQr8K2VfBr2pG5MpAQf62n5xSAsjuCZheQUy82csaPavg"}, {"netuid": 3, "name": "deprecated", "rank": 11, "score": 0.314108, "top_validator": "5E6yHkmZmSpBT5aa2rNZcmeYa1y3N9jw1h7g53oNPzMUpnqG"}], "spike_setups": [{"netuid": 18, "name": "Zeus", "overall_rank": 2, "price_rank": 50, "gap": 48, "score": 0.54403}, {"netuid": 85, "name": "Vidaio", "overall_rank": 25, "price_rank": 59, "gap": 34, "score": 0.233973}, {"netuid": 81, "name": "deprecated", "overall_rank": 19, "price_rank": 51, "gap": 32, "score": 0.244086}, {"netuid": 93, "name": "Bitcast", "overall_rank": 17, "price_rank": 35, "gap": 18, "score": 0.252779}, {"netuid": 62, "name": "Ridges", "overall_rank": 15, "price_rank": 30, "gap": 15, "score": 0.258062}, {"netuid": 19, "name": "blockmachine", "overall_rank": 22, "price_rank": 36, "gap": 14, "score": 0.235807}, {"netuid": 53, "name": "EfficientFrontier", "overall_rank": 21, "price_rank": 33, "gap": 12, "score": 0.237123}]};
+const WEIGHTS = {
+  Bull: {price: 50, emission: 30, pool: 20},
+  Sideways: {price: 35, emission: 40, pool: 25},
+  Bear: {price: 20, emission: 50, pool: 30},
+};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+document.getElementById('ts').textContent = 'Last scan: ' + new Date(R.timestamp).toLocaleString();
+
+const w = WEIGHTS[R.regime] || {};
+const ch = R.regime_info.change_7d || 0;
+document.getElementById('regime').innerHTML =
+  '<div class="regime-banner regime-' + esc(R.regime) + '">' +
+    '<div><div class="regime-label">' + esc(R.regime) + ' Regime</div>' +
+    '<div class="regime-sub">Markov 2.0 &mdash; 20-bar cumulative return</div>' +
+    '<div class="weights"><span class="weight-chip">Price ' + w.price + '%</span>' +
+    '<span class="weight-chip">Emissions ' + w.emission + '%</span>' +
+    '<span class="weight-chip">Pool ' + w.pool + '%</span></div></div>' +
+    '<div class="price-block"><div class="price">$' + R.regime_info.price.toLocaleString() + '</div>' +
+    '<div class="' + (ch >= 0 ? 'change-pos' : 'change-neg') + '">' + (ch >= 0 ? '+' : '') + ch + '% 7d</div></div>' +
+  '</div>';
+
+let actionHtml;
+if (R.action === 'HOLD') {
+  actionHtml = '<span class="action-hold">&#9989; HOLD &mdash; all positions in top 15</span>';
+} else {
+  actionHtml = '<span class="action-swap">&#128260; SWAP recommended</span>';
+  for (const s of R.swaps) {
+    actionHtml += '<div style="margin-top:12px">SN' + s.from_netuid + ' ' + esc(s.from_name) + ' (#' + s.from_rank + ')' +
+      ' &rarr; SN' + s.to_netuid + ' ' + esc(s.to_name) + ' (#' + s.to_rank + ')' +
+      '<div class="mono muted" style="margin-top:4px">Validator: ' + esc(s.to_validator) + '</div></div>';
+  }
+}
+document.getElementById('action').innerHTML = actionHtml;
+
+let total = 0;
+let pRows = '<tr><th>Subnet</th><th>Name</th><th class="num">Rank</th><th class="num">Score</th><th class="num">&alpha; Tokens</th><th class="num">Value (&tau;)</th><th>Status</th></tr>';
+for (const p of R.portfolio) {
+  total += p.value_tao;
+  const cls = p.rank <= 15 ? 'status-green' : p.rank <= 30 ? 'status-yellow' : 'status-red';
+  const label = p.rank <= 15 ? '&#9679; GREEN' : p.rank <= 30 ? '&#9679; WATCH' : '&#9679; EXIT';
+  pRows += '<tr><td>SN' + p.netuid + '</td><td>' + esc(p.name) + '</td><td class="num">#' + p.rank + '</td>' +
+    '<td class="num">' + p.score.toFixed(4) + '</td><td class="num">' + p.tokens.toFixed(2) + '</td>' +
+    '<td class="num">' + p.value_tao.toFixed(4) + '</td><td class="' + cls + '">' + label + '</td></tr>';
+}
+pRows += '<tr class="total-row"><td colspan="5">Total</td><td class="num">' + total.toFixed(4) + '</td><td></td></tr>';
+document.getElementById('portfolio').innerHTML = pRows;
+
+let sRows = '<tr><th>Subnet</th><th>Name</th><th class="num">Composite Rank</th><th class="num">Price Rank</th><th class="num">Gap</th><th class="num">Score</th></tr>';
+if (R.spike_setups.length === 0) {
+  sRows += '<tr><td colspan="6" class="muted">No spike setups detected &mdash; prices are tracking fundamentals.</td></tr>';
+}
+for (const s of R.spike_setups) {
+  sRows += '<tr><td>SN' + s.netuid + '</td><td>' + esc(s.name) + '</td><td class="num">#' + s.overall_rank + '</td>' +
+    '<td class="num">#' + s.price_rank + '</td><td class="num"><span class="gap-badge">+' + s.gap + '</span></td>' +
+    '<td class="num">' + s.score.toFixed(4) + '</td></tr>';
+}
+document.getElementById('spikes').innerHTML = sRows;
+
+let cRows = '<tr><th class="num">Rank</th><th>Subnet</th><th>Name</th><th class="num">Score</th><th>Top Validator</th></tr>';
+for (const c of R.top_candidates) {
+  cRows += '<tr><td class="num">#' + c.rank + '</td><td>SN' + c.netuid + '</td><td>' + esc(c.name) + '</td>' +
+    '<td class="num">' + c.score.toFixed(4) + '</td><td class="mono muted">' + esc(c.top_validator || '&mdash;') + '</td></tr>';
+}
+document.getElementById('candidates').innerHTML = cRows;
+</script>
+</body>
+</html>
