@@ -44,6 +44,8 @@
   .weights { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
   .weight-chip { background: #21262d; border-radius: 5px; padding: 3px 10px; font-size: 12px; color: var(--muted); }
   .mono { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 12px; }
+  a.sn { color: var(--blue); text-decoration: none; font-weight: 600; }
+  a.sn:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -59,13 +61,14 @@
   <div class="footnote">Regime via Markov 2.0 method: 20-bar cumulative return, ±5% threshold. Scan runs every 4h via GitHub Actions.</div>
 </div>
 <script>
-const R = {"timestamp": "2026-07-06T18:05:27.619342Z", "regime": "Bear", "regime_info": {"price": 214.94, "change_7d": 6.5}, "action": "HOLD", "portfolio": [{"netuid": 107, "name": "Minos", "rank": 9, "score": 0.205465, "tokens": 56.5084, "value_tao": 2.8871}], "swaps": [], "top_candidates": [{"netuid": 18, "name": "Zeus", "rank": 1, "score": 0.544013, "top_validator": "5DCSySUE9aubXTpnnwu5hxBUaMJM7G1L2c5yjuSNaTNwoWyG"}, {"netuid": 64, "name": "Chutes", "rank": 2, "score": 0.534961, "top_validator": "5DU1dvXbvjVRs5omKrbZzLNB6ZL9uNnzQrS1H8MFcSdFS7ww"}, {"netuid": 4, "name": "Targon", "rank": 3, "score": 0.351672, "top_validator": "5Hp18g9P8hLGKp9W3ZDr4bvJwba6b6bY3P2u3VdYf8yMR8FM"}, {"netuid": 51, "name": "lium.io", "rank": 4, "score": 0.347536, "top_validator": "5F7X5UpKSr26KU3jKfpLmT8kuKtBNyHhEnfS8xtxPCqCb13p"}, {"netuid": 120, "name": "Affine", "rank": 5, "score": 0.331461, "top_validator": "5E4pndzPWnKn9qzA48zQNXjGE8dKJZRpnLajeDfF8VmQC5Ba"}, {"netuid": 44, "name": "Score", "rank": 6, "score": 0.231733, "top_validator": "5DFwFpurRFaT5VtjdsATUnRakGhvUdgCghF61457QbWdsnJp"}, {"netuid": 95, "name": "Actual", "rank": 7, "score": 0.224254, "top_validator": "5E2LP6EnZ54m3wS8s1yPvD5c3xo71kQroBw7aUVK32TKeZ5u"}, {"netuid": 8, "name": "Vanta", "rank": 8, "score": 0.210823, "top_validator": "5FeNwZ5oAqcJMitNqGx71vxGRWJhsdTqxFGVwPRfg8h2UZmo"}, {"netuid": 9, "name": "iota", "rank": 10, "score": 0.189715, "top_validator": "5EnpBz2DoMTzMztFSVPSpi8jP2yfGadU6kgZgsjqnfvonMgu"}, {"netuid": 3, "name": "deprecated", "rank": 11, "score": 0.170306, "top_validator": "5E6yHkmZmSpBT5aa2rNZcmeYa1y3N9jw1h7g53oNPzMUpnqG"}], "spike_setups": [{"netuid": 18, "name": "Zeus", "overall_rank": 1, "price_rank": 50, "gap": 49, "score": 0.544013}, {"netuid": 124, "name": "Swarm", "overall_rank": 23, "price_rank": 44, "gap": 21, "score": 0.103827}, {"netuid": 1, "name": "Apex", "overall_rank": 25, "price_rank": 45, "gap": 20, "score": 0.100316}, {"netuid": 93, "name": "Bitcast", "overall_rank": 22, "price_rank": 35, "gap": 13, "score": 0.105045}, {"netuid": 62, "name": "Ridges", "overall_rank": 19, "price_rank": 30, "gap": 11, "score": 0.111238}]};
+const R = {"timestamp": "2026-07-06T17:42:37.188003Z", "regime": "Bear", "regime_info": {"price": 214.94, "change_7d": 6.5}, "action": "HOLD", "portfolio": [{"netuid": 107, "name": "Minos", "rank": 8, "score": 0.334773, "tokens": 56.501, "value_tao": 2.8854}], "swaps": [], "top_candidates": [{"netuid": 64, "name": "Chutes", "rank": 1, "score": 0.68311, "top_validator": "5DU1dvXbvjVRs5omKrbZzLNB6ZL9uNnzQrS1H8MFcSdFS7ww"}, {"netuid": 18, "name": "Zeus", "rank": 2, "score": 0.54403, "top_validator": "5DCSySUE9aubXTpnnwu5hxBUaMJM7G1L2c5yjuSNaTNwoWyG"}, {"netuid": 4, "name": "Targon", "rank": 3, "score": 0.49586, "top_validator": "5Hp18g9P8hLGKp9W3ZDr4bvJwba6b6bY3P2u3VdYf8yMR8FM"}, {"netuid": 51, "name": "lium.io", "rank": 4, "score": 0.494317, "top_validator": "5F7X5UpKSr26KU3jKfpLmT8kuKtBNyHhEnfS8xtxPCqCb13p"}, {"netuid": 44, "name": "Score", "rank": 5, "score": 0.378163, "top_validator": "5DFwFpurRFaT5VtjdsATUnRakGhvUdgCghF61457QbWdsnJp"}, {"netuid": 95, "name": "Actual", "rank": 6, "score": 0.367155, "top_validator": "5E2LP6EnZ54m3wS8s1yPvD5c3xo71kQroBw7aUVK32TKeZ5u"}, {"netuid": 8, "name": "Vanta", "rank": 7, "score": 0.355002, "top_validator": "5FeNwZ5oAqcJMitNqGx71vxGRWJhsdTqxFGVwPRfg8h2UZmo"}, {"netuid": 9, "name": "iota", "rank": 9, "score": 0.334048, "top_validator": "5EnpBz2DoMTzMztFSVPSpi8jP2yfGadU6kgZgsjqnfvonMgu"}, {"netuid": 68, "name": "NOVA", "rank": 10, "score": 0.314395, "top_validator": "5F1tQr8K2VfBr2pG5MpAQf62n5xSAsjuCZheQUy82csaPavg"}, {"netuid": 3, "name": "deprecated", "rank": 11, "score": 0.314108, "top_validator": "5E6yHkmZmSpBT5aa2rNZcmeYa1y3N9jw1h7g53oNPzMUpnqG"}], "spike_setups": [{"netuid": 18, "name": "Zeus", "overall_rank": 2, "price_rank": 50, "gap": 48, "score": 0.54403}, {"netuid": 85, "name": "Vidaio", "overall_rank": 25, "price_rank": 59, "gap": 34, "score": 0.233973}, {"netuid": 81, "name": "deprecated", "overall_rank": 19, "price_rank": 51, "gap": 32, "score": 0.244086}, {"netuid": 93, "name": "Bitcast", "overall_rank": 17, "price_rank": 35, "gap": 18, "score": 0.252779}, {"netuid": 62, "name": "Ridges", "overall_rank": 15, "price_rank": 30, "gap": 15, "score": 0.258062}, {"netuid": 19, "name": "blockmachine", "overall_rank": 22, "price_rank": 36, "gap": 14, "score": 0.235807}, {"netuid": 53, "name": "EfficientFrontier", "overall_rank": 21, "price_rank": 33, "gap": 12, "score": 0.237123}]};
 const WEIGHTS = {
   Bull: {price: 50, emission: 30, pool: 20},
   Sideways: {price: 35, emission: 40, pool: 25},
   Bear: {price: 20, emission: 50, pool: 30},
 };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const snLink = (nid, label) => '<a class="sn" href="https://taostats.io/subnets/' + nid + '/chart" target="_blank" rel="noopener">' + esc(label) + '</a>';
 
 document.getElementById('ts').textContent = 'Last scan: ' + new Date(R.timestamp).toLocaleString();
 
@@ -88,8 +91,8 @@ if (R.action === 'HOLD') {
 } else {
   actionHtml = '<span class="action-swap">&#128260; SWAP recommended</span>';
   for (const s of R.swaps) {
-    actionHtml += '<div style="margin-top:12px">SN' + s.from_netuid + ' ' + esc(s.from_name) + ' (#' + s.from_rank + ')' +
-      ' &rarr; SN' + s.to_netuid + ' ' + esc(s.to_name) + ' (#' + s.to_rank + ')' +
+    actionHtml += '<div style="margin-top:12px">' + snLink(s.from_netuid, 'SN' + s.from_netuid + ' ' + s.from_name) + ' (#' + s.from_rank + ')' +
+      ' &rarr; ' + snLink(s.to_netuid, 'SN' + s.to_netuid + ' ' + s.to_name) + ' (#' + s.to_rank + ')' +
       '<div class="mono muted" style="margin-top:4px">Validator: ' + esc(s.to_validator) + '</div></div>';
   }
 }
@@ -101,7 +104,7 @@ for (const p of R.portfolio) {
   total += p.value_tao;
   const cls = p.rank <= 15 ? 'status-green' : p.rank <= 30 ? 'status-yellow' : 'status-red';
   const label = p.rank <= 15 ? '&#9679; GREEN' : p.rank <= 30 ? '&#9679; WATCH' : '&#9679; EXIT';
-  pRows += '<tr><td>SN' + p.netuid + '</td><td>' + esc(p.name) + '</td><td class="num">#' + p.rank + '</td>' +
+  pRows += '<tr><td>' + snLink(p.netuid, 'SN' + p.netuid) + '</td><td>' + snLink(p.netuid, p.name) + '</td><td class="num">#' + p.rank + '</td>' +
     '<td class="num">' + p.score.toFixed(4) + '</td><td class="num">' + p.tokens.toFixed(2) + '</td>' +
     '<td class="num">' + p.value_tao.toFixed(4) + '</td><td class="' + cls + '">' + label + '</td></tr>';
 }
@@ -113,7 +116,7 @@ if (R.spike_setups.length === 0) {
   sRows += '<tr><td colspan="6" class="muted">No spike setups detected &mdash; prices are tracking fundamentals.</td></tr>';
 }
 for (const s of R.spike_setups) {
-  sRows += '<tr><td>SN' + s.netuid + '</td><td>' + esc(s.name) + '</td><td class="num">#' + s.overall_rank + '</td>' +
+  sRows += '<tr><td>' + snLink(s.netuid, 'SN' + s.netuid) + '</td><td>' + snLink(s.netuid, s.name) + '</td><td class="num">#' + s.overall_rank + '</td>' +
     '<td class="num">#' + s.price_rank + '</td><td class="num"><span class="gap-badge">+' + s.gap + '</span></td>' +
     '<td class="num">' + s.score.toFixed(4) + '</td></tr>';
 }
@@ -121,7 +124,7 @@ document.getElementById('spikes').innerHTML = sRows;
 
 let cRows = '<tr><th class="num">Rank</th><th>Subnet</th><th>Name</th><th class="num">Score</th><th>Top Validator</th></tr>';
 for (const c of R.top_candidates) {
-  cRows += '<tr><td class="num">#' + c.rank + '</td><td>SN' + c.netuid + '</td><td>' + esc(c.name) + '</td>' +
+  cRows += '<tr><td class="num">#' + c.rank + '</td><td>' + snLink(c.netuid, 'SN' + c.netuid) + '</td><td>' + snLink(c.netuid, c.name) + '</td>' +
     '<td class="num">' + c.score.toFixed(4) + '</td><td class="mono muted">' + esc(c.top_validator || '&mdash;') + '</td></tr>';
 }
 document.getElementById('candidates').innerHTML = cRows;
